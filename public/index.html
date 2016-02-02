@@ -1,0 +1,36 @@
+<!DOCTYPE 'html'>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>WebSocket Chat</title>
+	<script type="text/javascript" src="/websocket.js"></script>
+	<script language='javascript' type='text/javascript'>
+		var websocket;
+		window.onload = function() {
+			websocket = openWebSocket();
+			websocket.onopen = function(event) {
+				console.log('open');
+			};
+			websocket.onclose = function(event) { 
+				console.log('close');
+			};
+			websocket.onmessage = function(event) {
+				var elem = document.createElement("div");
+				elem.innerText = elem.textContent = event.data;
+				var history = document.getElementById('history');
+				history.insertBefore(elem, history.firstChild);
+			};
+			document.getElementById('send').onclick = function() {
+				var textarea = document.getElementById('text');
+				websocket.send(textarea.value);
+				textarea.value = '';
+			};
+		}
+	</script>
+</head>
+<body>
+	<textarea id='text'></textarea>
+	<button id='send'>Send</button>
+	<div id='history'></div>
+</body>
+</html>
