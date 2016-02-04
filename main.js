@@ -67,7 +67,7 @@ function Client(websocket) {
 
 		if(pack != undefined) {
 			if(pack.type == 'set-name') {
-				if(self.name != pack.text) {
+				if(self.name != pack.text && pack.text.length > 0) {
 					var outPack = {
 						author: {
 							id: self.id,
@@ -77,8 +77,8 @@ function Client(websocket) {
 						text: pack.text
 					};
 					broadcast(outPack);
+					self.name = pack.text;
 				}
-				self.name = pack.text;
 			} else if(pack.type == 'broadcast') {
 				if(pack.text.length > 0) {
 					var outPack = {

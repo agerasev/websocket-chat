@@ -55,12 +55,12 @@ function ready() {
 
 	// assing listeners
 
-	function setNameListener() {
+	function onSetName() {
 		var input = document.getElementById('input-name');
 		setName(websocket, input.value);
 	}
 
-	function sendListener() {
+	function onSend() {
 		var input = document.getElementById('input-message');
 		broadcast(websocket, input.value);
 		input.value = '';
@@ -80,20 +80,27 @@ function ready() {
 		print(JSON.parse(event.data));
 	};
 
-	document.getElementById('button-set-name').onclick = setNameListener;
-	document.getElementById('button-send').onclick = sendListener;
+	document.getElementById('button-set-name').onclick = onSetName;
+	document.getElementById('button-send').onclick = onSend;
 
-	$("#input-name").keyup(function(e) {
+	function handleEnter(e, cb) {
 		if((e.keyCode || e.which) == 13) { // Enter keycode
-			setNameListener();
+			if(cb)
+				cb();
+			return false;
 		}
-	});
+		return true;
+	}
 
-	$("#input-message").keyup(function(e) {
-		if((e.keyCode || e.which) == 13) { // Enter keycode
-			sendListener();
-		}
-	});
+	$("#input-name")
+	.keyup(function(e) {return handleEnter(e, onSetName);})
+	.keydown(function(e) {return handleEnter(e);})
+	.keypress(function(e) {return handleEnter(e);});
+
+	$("#input-message")
+	.keyup(function(e) {return handleEnter(e, onSend);})
+	.keydown(function(e) {return handleEnter(e);})
+	.keypress(function(e) {return handleEnter(e);});
 }
 
 $(document).ready(ready);
