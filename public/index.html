@@ -3,34 +3,31 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 	<title>WebSocket Chat</title>
+	<link rel="icon" type="image/png" sizes="16x16" href="img/msg16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="img/msg32.png">
+	<link rel="icon" type="image/png" sizes="64x64" href="img/msg64.png">
+	<link rel="stylesheet" href="/style.css"/>
+	<link rel="stylesheet" href="style.css"/>
+	<script type="text/javascript" src="/jquery.js"></script>
 	<script type="text/javascript" src="/websocket.js"></script>
-	<script language='javascript' type='text/javascript'>
-		var websocket;
-		window.onload = function() {
-			websocket = openWebSocket();
-			websocket.onopen = function(event) {
-				console.log('open');
-			};
-			websocket.onclose = function(event) { 
-				console.log('close');
-			};
-			websocket.onmessage = function(event) {
-				var elem = document.createElement("div");
-				elem.innerText = elem.textContent = event.data;
-				var history = document.getElementById('history');
-				history.insertBefore(elem, history.firstChild);
-			};
-			document.getElementById('send').onclick = function() {
-				var textarea = document.getElementById('text');
-				websocket.send(textarea.value);
-				textarea.value = '';
-			};
-		}
-	</script>
+	<script type='text/javascript' src="main.js"></script>
 </head>
 <body>
-	<textarea id='text'></textarea>
-	<button id='send'>Send</button>
+	<div id='control'>
+		<table id='control-table'>
+		<tr id='row-name'>
+			<td class='col-header'>Name: </td>
+			<td><input type='text' id='input-name' value='Anonymous'></textarea></td>
+			<td class='col-button'><button id='button-set-name'>Set Name</button></td>
+		</tr>
+		<tr id='row-message'>
+			<td class='col-header'>Message: </td>
+			<td><textarea id='input-message'></textarea></td>
+			<td class='col-button'><button id='button-send'>Send</button></td>
+		</tr>
+		</table>
+	</div>
+	<div id='placeholder'></div>
 	<div id='history'></div>
 </body>
 </html>

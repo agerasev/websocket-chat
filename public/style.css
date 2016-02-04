@@ -1,0 +1,131 @@
+html {
+	font-family: "Lucida Console", "Courier New", monospace;
+}
+
+body {
+	background-color: #DDDDDD;
+}
+
+textarea, input {
+	border-radius: 0;
+	border: 0;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+textarea:focus, input:focus {
+	box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+button {
+	border: 0;
+	border-radius: 0;
+	background-color: #EE0000;
+	color: #EEEEEE;
+	font-weight: bold;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+button:hover, button:active {
+	background-color: #F22222;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+table {
+	padding: 0;
+	margin: 0;
+	border-spacing: 16px;
+}
+
+td, th {
+	padding: 0;
+}
+
+#control {
+	position: fixed;
+	width: 100%;
+	background-color: #EEEEEE;
+	box-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
+
+#control-table {
+	width: 100%;
+}
+
+.col-header {
+	width: 128px;
+	font-size: 24px;
+	color: #EE0000;
+	text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.col-button {
+	width: 96px;
+}
+
+#row-name {
+	height: 30px;
+}
+
+#input-name {
+	width: 100%;
+	height: 30px;
+	padding: 2px;
+	margin: 0;
+	font-size: 16px;
+}
+
+#button-set-name {
+	width: 100%;
+	height: 30px;
+	padding: 0;
+	margin: 0;
+	font-size: 16px;
+}
+
+#row-message {
+	height: 64px;
+}
+
+#input-message {
+	width: 100%;
+	height: 64px;
+	min-height: 64px;
+	padding: 4px;
+	margin: 0;
+	resize: none;
+}
+
+#button-send {
+	width: 100%;
+	height: 64px;
+	padding: 0;
+	margin: 0;
+	font-size: 32px;
+}
+
+#history {
+	padding: 8px;
+}
+
+#placeholder {
+	padding: 0;
+	margin: 0;
+}
+
+.message {
+	padding: 0;
+	margin: 16px;
+	background-color: #EEEEEE;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.msg-author {
+	padding: 4px;
+	background-color: #FFFFFF;
+	font-weight: bold;
+}
+
+.msg-text {
+	padding: 4px;
+	background-color: #EEEEEE;
+}
