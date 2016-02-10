@@ -1,3 +1,15 @@
+var mongodbUrl = process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://localhost:27017/';
+
+var mongodb = require('mongodb');
+var assert = require('assert');
+var db = null;
+mongodb.MongoClient.connect(mongodbUrl + 'test', function(err, mdb) {
+	assert.equal(null, err);
+	console.log("[ info ] mongodb connected");
+	db = mdb;
+	db.createCollection('chat');
+});
+
 var clients = [null];
 
 function addClient(client) {
