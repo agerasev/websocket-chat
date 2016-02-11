@@ -1,9 +1,11 @@
 var mongodbUrl = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGODB_URL;
+var mongodbDb = process.env.OPENSHIFT_APP_NAME || process.env.MONGODB_DB;
+console.log(mongodbUrl);
 
 var mongodb = require('mongodb');
 var assert = require('assert');
 var db = null;
-mongodb.MongoClient.connect(mongodbUrl + 'test', function(err, mdb) {
+mongodb.MongoClient.connect(mongodbUrl + mongodbDb, function(err, mdb) {
 	assert.equal(null, err);
 	console.log("[info] db: mongodb connected");
 	db = mdb;
