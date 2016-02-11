@@ -1,8 +1,10 @@
 function print(pack) {
 	var elem = document.createElement("div");
 	elem.className = 'message';
+	var history = document.getElementById('history');
 
 	if(pack.type == 'send' || pack.type == 'broadcast') {
+
 		var author = document.createElement("div");
 		author.className = 'msg-author';
 		author.innerText = author.textContent = pack.author.name + '(#' + pack.author.id + ')';
@@ -13,16 +15,33 @@ function print(pack) {
 		text.innerText = text.textContent = pack.text;
 		elem.appendChild(text);
 
+		history.insertBefore(elem, history.firstChild);
+
+	} else if(pack.type == 'history') {
+
+		var author = document.createElement("div");
+		author.className = 'msg-author';
+		author.innerText = author.textContent = pack.author;
+		elem.appendChild(author);
+
+		var text = document.createElement("div");
+		text.className = 'msg-text';
+		text.innerText = text.textContent = pack.text;
+		elem.appendChild(text);
+
+		history.appendChild(elem);
+
 	} else if(pack.type == 'set-name') {
+
 		var text = document.createElement("div");
 		text.className = 'msg-author';
 		var idStr = '(#' + pack.author.id + ')';
 		text.innerText = text.textContent = pack.author.name + idStr + ' was renamed to ' + pack.text + idStr;
 		elem.appendChild(text);
-	}
 
-	var history = document.getElementById('history');
-	history.insertBefore(elem, history.firstChild);
+		history.insertBefore(elem, history.firstChild);
+
+	}
 }
 
 function send(websocket, pack) {
