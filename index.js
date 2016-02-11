@@ -1,34 +1,17 @@
-var mongodbUrl = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGODB_URL;
-var mongodbDb = process.env.OPENSHIFT_APP_NAME || process.env.MONGODB_DB;
-console.log(mongodbUrl);
-
-var mongodb = require('mongodb');
-var assert = require('assert');
-var db = null;
-mongodb.MongoClient.connect(mongodbUrl + mongodbDb, function(err, mdb) {
-	assert.equal(null, err);
-	console.log("[info] db: mongodb connected");
-	db = mdb;
-	
-	// Add chat collection
-	db.createCollection('chat', function(err, coll) {
+var dbcoll = null;
+function setDBCollection(coll) {
+	dbcoll = coll;
+	coll.findOne({"name": "messages"}, function(err, elem) {
 		if(err) {
-			console.err('[error] db: create "chat" collection: ' + err);
+			console.err('chat: [error] db: nextObject: ' + err);
+		} else if(elem) {
+			console.log('chat: [info] db: collection "messages" already exists');
 		} else {
-			console.log('[info] db: "chat" collection created or already exists');
-			coll.findOne({"name": "messages"}, function(err, elem) {
-				if(err) {
-					console.err('[error] db: nextObject: ' + err);
-				} else if(elem) {
-					console.log('[info] db: collection "messages" already exists');
-				} else {
-					coll.insert({name:"messages", messages:[]});
-					console.log('[info] db: collection "messages" created');
-				}
-			});
+			coll.insert({name:"messages", messages:[]});
+			console.log('chat: [info] db: collection "messages" created');
 		}
 	});
-});
+}
 
 var NAME_MAXLEN = 0x10;
 var MESSAGE_MAXLEN = 0x100;
@@ -87,7 +70,7 @@ function Client(websocket) {
 		console.log('open ' + self.id);
 
 		// send history from database
-		db.collection('chat').findOne(
+		dbcoll.findOne(
 			{name: 'messages'},
 			{messages: { $slice: -HISTORY_COUNT}},
 			function (err, elem) {
@@ -151,7 +134,7 @@ function Client(websocket) {
 					broadcast(outPack);
 
 					// add to database
-					db.collection('chat').updateOne(
+					dbcoll.updateOne(
 						{name:'messages'}, 
 						{$push: { messages: {
 							name: self.name,
@@ -176,4 +159,5 @@ function Client(websocket) {
 	}
 }
 
-module.exports.WebSocketHandle = Client;
+module.exports.Client = Client;
+module.exports.setDBCollection = setDBCollection;
